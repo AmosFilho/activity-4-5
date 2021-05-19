@@ -12,6 +12,10 @@ COLOR_RED = (255, 0, 0)
 xcolor = 0
 
 
+brick_colors = []
+BRICK_HEIGHT = 40
+BRICK_WIDTH = 90
+
 size = (1100, 600)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Blackout Remake")
@@ -24,23 +28,18 @@ score_text_rect.center = (550, 50)
 
 # Create Bricks
 brick = []
-brick_cord = 0
-
-# Draw Bricks
+j = 0
+p = 0
 # Draw Bricks
 for j in range(3):
-    y_brick = 40 + (j*50)
-    line = []
-    for i in range(15):
-        x_brick = 5 + (i*100)
-        if j == 1:
-            xcolor = COLOR_GREEN
-        elif j == 2:
-            xcolor = COLOR_ORANGE
-        elif j == 3:
-            xcolor = COLOR_RED
-        brick_cord = (xcolor, x_brick, y_brick, 90, 40)
+    for i in range(11):
+        y_brick = 80 + (j * 50)
+        x_brick = 5 + (i * 100)
+        brick_colors.append(j)
+        brick.append((x_brick, y_brick))
 
+print(brick)
+print(brick_colors)
 
 
 # Sound effects
@@ -139,9 +138,19 @@ while game_loop:
     screen.blit(ball, (ball_x, ball_y))
     screen.blit(score_text, score_text_rect)
     pygame.draw.rect(screen, COLOR_BLUE, (player_x, 550, 100, 40))
-    for i in range(9):
-        x_brick = 5 + (i * 100)
-        brick[i] = pygame.draw.rect(screen, COLOR_GREEN, (x_brick, 80, 90, 40))
+
+    for n in range(3):
+        for m in range(11):
+            if n == 0:
+                p = m
+                xcolor = COLOR_GREEN
+            elif n == 1:
+                p = m + 11
+                xcolor = COLOR_ORANGE
+            elif n == 2:
+                p = m + 22
+                xcolor = COLOR_RED
+            pygame.draw.rect(screen, xcolor, (brick[p][0], brick[p][1], BRICK_WIDTH, BRICK_HEIGHT))
 
     # update screen
     pygame.display.flip()
